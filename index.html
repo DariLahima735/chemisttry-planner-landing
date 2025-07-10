@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ChemistryPlanner - Трекерът за теб</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            width: 100%;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+            margin-top: 80px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 60px;
+            color: white;
+        }
+
+        .logo {
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .logo::before {
+            content: "🧪";
+            margin-right: 10px;
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            margin-bottom: 10px;
+        }
+
+        .description {
+            font-size: 1rem;
+            opacity: 0.8;
+        }
+
+        .form-section {
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .form-title {
+            font-size: 1.5rem;
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: 15px;
+            color: #333;
+        }
+
+        .form-subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 0.9rem;
+        }
+
+        .email-icon {
+            width: 60px;
+            height: 60px;
+            background: #2196F3;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            color: white;
+            font-size: 24px;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: #333;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 16px;
+            transition: border-color 0.3s ease;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #4CAF50;
+            box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.1);
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(135deg, #4CAF50, #45a049);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(76, 175, 80, 0.3);
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(76, 175, 80, 0.4);
+        }
+
+        .submit-btn:active {
+            transform: translateY(0);
+        }
+
+        .disclaimer {
+            text-align: center;
+            font-size: 0.8rem;
+            color: #999;
+            margin-top: 20px;
+        }
+
+        .features {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+            margin-top: 60px;
+            width: 100%;
+        }
+
+        .feature {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 30px 20px;
+            border-radius: 15px;
+            text-align: center;
+            color: white;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .feature-icon {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+        }
+
+        .feature-title {
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .feature-desc {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+
+        .preview-section {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .preview-mockup {
+            width: 100%;
+            max-width: 500px;
+            height: 350px;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .mockup-header {
+            height: 40px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            display: flex;
+            align-items: center;
+            padding: 0 15px;
+            gap: 8px;
+        }
+
+        .mockup-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        .mockup-content {
+            padding: 20px;
+            height: calc(100% - 40px);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .mockup-title {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 15px;
+        }
+
+        .mockup-chart {
+            flex-grow: 1;
+            background: linear-gradient(135deg, #e8f5e8, #f0f8ff);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .mockup-chart::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="20" fill="none" stroke="%234CAF50" stroke-width="2"/><circle cx="30" cy="30" r="8" fill="%232196F3"/><circle cx="70" cy="30" r="8" fill="%23FF9800"/><circle cx="50" cy="70" r="8" fill="%23F44336"/><line x1="30" y1="30" x2="50" y2="50" stroke="%23666" stroke-width="1"/><line x1="70" y1="30" x2="50" y2="50" stroke="%23666" stroke-width="1"/></svg>') no-repeat center;
+            background-size: 80%;
+            opacity: 0.3;
+        }
+
+        .success-message {
+            display: none;
+            background: linear-gradient(135deg, #4CAF50, #45a049);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            margin-top: 20px;
+            box-shadow: 0 4px 15px rgba(76, 175, 80, 0.3);
+        }
+
+        .success-message.show {
+            display: block;
+            animation: slideIn 0.5s ease-out;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                grid-template-columns: 1fr;
+                gap: 40px;
+                margin-top: 40px;
+            }
+
+            .features {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+
+            .form-section {
+                padding: 30px 20px;
+            }
+
+            .logo {
+                font-size: 2rem;
+            }
+
+            .preview-mockup {
+                height: 250px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="logo">ChemistryPlanner</div>
+        <div class="subtitle">Трекерът за теб</div>
+        <div class="description">Поправи хаоса в няколко лесни стъпки - въведи, потвърди и повтори</div>
+    </div>
+
+    <div class="container">
+        <div class="form-section">
+            <div class="email-icon">✉️</div>
+            <h2 class="form-title">ВЗЕМИ СВОЯТ БЕЗПЛАТНЕ ПЛАНЕР!</h2>
+            <p class="form-subtitle">Въведи имейл адресът си и ще бъдеш препратен към линка за планера</p>
+            
+            <form id="emailForm" action="#" method="POST">
+                <div class="form-group">
+                    <label for="email">Email Address</label>
+                    <input type="email" id="email" name="email" placeholder="youremail@example.com" required>
+                </div>
+                <button type="submit" class="submit-btn">Get My Free Planner</button>
+            </form>
+            
+            <div class="disclaimer">
+                Никакви спам, откажи се когато си поискаш
+            </div>
+            
+            <div class="success-message" id="successMessage">
+                <h3>Благодарим ви!</h3>
+                <p>Вашият имейл е записан успешно. Пренасочваме ви към планера...</p>
+            </div>
+        </div>
+
+        <div class="preview-section">
+            <div class="preview-mockup">
+                <div class="mockup-header">
+                    <div class="mockup-dot"></div>
+                    <div class="mockup-dot"></div>
+                    <div class="mockup-dot"></div>
+                </div>
+                <div class="mockup-content">
+                    <div class="mockup-title">Твоята пълна система за усвояване на органичната химия</div>
+                    <div class="mockup-chart">
+                        🧪
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="features">
+        <div class="feature">
+            <div class="feature-icon">⚡</div>
+            <div class="feature-title">Изтеглане - веднага</div>
+            <div class="feature-desc">Моментален достъп до планера</div>
+        </div>
+        <div class="feature">
+            <div class="feature-icon">🎯</div>
+            <div class="feature-title">Утвърден метод</div>
+            <div class="feature-desc">Проверена система за обучение</div>
+        </div>
+        <div class="feature">
+            <div class="feature-icon">📊</div>
+            <div class="feature-title">Химично - ориентиран</div>
+            <div class="feature-desc">Специално за КСК</div>
+        </div>
+    </div>
+
+    <script>
+        // Масив за съхранение на имейлите (в реална среда това би било база данни)
+        let emailDatabase = JSON.parse(localStorage.getItem('emailDatabase')) || [];
+
+        // URL към който да се пренасочи след записване на имейла
+        const REDIRECT_URL = 'https://example.com/chemistry-planner'; // Сменете с вашия линк
+        
+        // Google Apps Script URL за записване в Google Sheets
+        const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxsApkVgPAsdjQcqreABqCkEH4ILKBw-ClgSPPnukSmjJxiE79e9NbVx3zqfI_IwC_b6w/exec'; // Сменете с вашия скрипт URL
+
+        document.getElementById('emailForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const email = document.getElementById('email').value;
+            const successMessage = document.getElementById('successMessage');
+            
+            if (email && isValidEmail(email)) {
+                // Запазване на имейла
+                saveEmail(email);
+                
+                // Показване на съобщение за успех
+                successMessage.classList.add('show');
+                
+                // Скриване на формата
+                document.getElementById('emailForm').style.display = 'none';
+                
+                // Пренасочване след 3 секунди
+                setTimeout(() => {
+                    window.location.href = REDIRECT_URL;
+                }, 3000);
+            } else {
+                alert('Моля, въведете валиден имейл адрес.');
+            }
+        });
+
+        function isValidEmail(email) {
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return emailRegex.test(email);
+        }
+
+        function saveEmail(email) {
+            const emailEntry = {
+                email: email,
+                timestamp: new Date().toISOString(),
+                ip: 'N/A',
+                userAgent: navigator.userAgent
+            };
+            
+            // Локално запазване като backup
+            if (!emailDatabase.some(entry => entry.email === email)) {
+                emailDatabase.push(emailEntry);
+                localStorage.setItem('emailDatabase', JSON.stringify(emailDatabase));
+            }
+            
+            // Изпращане към Google Sheets
+            sendToGoogleSheets(emailEntry);
+        }
+
+        // Функция за изпращане към Google Sheets
+        function sendToGoogleSheets(emailEntry) {
+            const formData = new FormData();
+            formData.append('email', emailEntry.email);
+            formData.append('timestamp', emailEntry.timestamp);
+            formData.append('userAgent', emailEntry.userAgent);
+            
+            fetch(GOOGLE_SCRIPT_URL, {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Email saved to Google Sheets:', data);
+            })
+            .catch(error => {
+                console.error('Error saving to Google Sheets:', error);
+                // Ако има грешка, поне имаме локално запазване
+            });
+        }
+
+        // Функция за изпращане на данните към сървър (примерна)
+        function sendToServer(emailEntry) {
+            // Пример за изпращане чрез fetch API
+            /*
+            fetch('/api/save-email', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(emailEntry)
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Email saved successfully:', data);
+            })
+            .catch(error => {
+                console.error('Error saving email:', error);
+            });
+            */
+        }
+
+        // Функция за показване на записаните имейли (за администратори)
+        function showEmailDatabase() {
+            console.log('Email Database:', emailDatabase);
+            return emailDatabase;
+        }
+
+        // Добавяне на анимации при скролиране
+        window.addEventListener('scroll', function() {
+            const features = document.querySelectorAll('.feature');
+            features.forEach(feature => {
+                const rect = feature.getBoundingClientRect();
+                if (rect.top < window.innerHeight && rect.bottom > 0) {
+                    feature.style.animation = 'slideIn 0.6s ease-out';
+                }
+            });
+        });
+    </script>
+</body>
+</html>
